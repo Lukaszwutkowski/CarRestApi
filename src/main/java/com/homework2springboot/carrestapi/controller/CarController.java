@@ -1,5 +1,6 @@
 package com.homework2springboot.carrestapi.controller;
 
+import com.homework2springboot.carrestapi.exceptions.CarNotFoundException;
 import com.homework2springboot.carrestapi.model.Car;
 import com.homework2springboot.carrestapi.service.CarServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,25 @@ public class CarController {
     private ResponseEntity<Car> addNewCar(@RequestBody Car car){
         carService.addNewCar(car);
         return new ResponseEntity<>(car, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Car> updateExistingCar(@PathVariable long id, @RequestBody Car udatedCar) {
+        try {
+            carService.updateCar(id, udatedCar);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (CarNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Car> deleteCar(@PathVariable long id){
+        try {
+            carService.deleteCar(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (CarNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

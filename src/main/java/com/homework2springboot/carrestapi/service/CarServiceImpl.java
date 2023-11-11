@@ -22,7 +22,11 @@ public class CarServiceImpl implements CarService{
 
     @Override
     public Optional<Car> getCarById(long id) {
-        return carRepository.findById(id);
+        Optional<Car> car = carRepository.findById(id);
+        if (car.isEmpty()){
+            throw new CarNotFoundException("Car not found with id: " + id);
+        }
+        return car;
     }
 
     @Override
@@ -37,17 +41,18 @@ public class CarServiceImpl implements CarService{
     @Override
     public void deleteCar(long id) {
         Optional<Car> carToDelete = carRepository.findById(id);
-        if (carToDelete.isPresent()) {
-            carRepository.delete(carToDelete.get().id());
+        if (carToDelete.isEmpty()){
+            throw new CarNotFoundException("Car not found with id: " + id);
         } else {
-            throw new CarNotFoundException("Car not found in database");
+            carRepository.delete(carToDelete.get().id());
         }
     }
     @Override
     public void updateCar(long id, Car updatedCar) {
         Optional<Car> existingCar = carRepository.findById(id);
-
-        if (existingCar.isPresent()) {
+        if (existingCar.isEmpty()){
+            throw new CarNotFoundException("Car not found with id: " + id);
+        } else {
             Car carToUpdate = existingCar.get();
             Car updatedRecord = new Car(
                     carToUpdate.id(),
