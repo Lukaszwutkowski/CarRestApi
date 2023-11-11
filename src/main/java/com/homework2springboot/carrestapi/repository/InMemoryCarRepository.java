@@ -25,8 +25,10 @@ public class InMemoryCarRepository {
     }
 
     public List<Car> findByColor(String color) {
+        color = color.toUpperCase().replace(" ", "_");
+        String finalColor = color;
         return carDatabase.stream()
-                .filter(car -> Objects.equals(car.color().toString(), color))
+                .filter(car -> Objects.equals(car.color().toString(), finalColor))
                 .collect(Collectors.toList());
     }
 

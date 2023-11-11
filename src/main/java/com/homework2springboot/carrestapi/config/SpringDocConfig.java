@@ -14,7 +14,7 @@ public class SpringDocConfig implements WebMvcConfigurer {
     public GroupedOpenApi api(){
         return GroupedOpenApi.builder()
                 .group("api")
-                .packagesToScan("com.homework2springboot.carrestapi")
+                .packagesToScan("com.homework2springboot.car-restapi")
                 .build();
     }
 }
