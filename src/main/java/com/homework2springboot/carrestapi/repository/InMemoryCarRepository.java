@@ -39,4 +39,12 @@ public class InMemoryCarRepository {
     public void delete(long id){
         carDatabase.removeIf(car -> car.id() == id);
     }
+
+    public void update(Car updatedCar) {
+        Optional<Car> existingCar = findById(updatedCar.id());
+        if (existingCar.isPresent()) {
+            int index = carDatabase.indexOf(existingCar.get());
+            carDatabase.set(index, updatedCar);
+        }
+    }
 }

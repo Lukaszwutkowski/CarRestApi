@@ -72,4 +72,50 @@ class CarServiceImplTest {
         assertEquals(color, result.get(0).color());
         assertEquals(color, result.get(1).color());
     }
+
+    @Test
+    void it_should_add_new_car_to_db(){
+
+        //given
+        Car createdCar = new Car(1L, "Toyota", "Prius Plus", Color.BLACK);
+
+        //when
+        carService.addNewCar(createdCar);
+
+        //then
+        assertNotNull(createdCar);
+        assertEquals("Toyota", createdCar.mark());
+    }
+
+    @Test
+    public void it_should_delete_car_by_given_id() {
+
+        //given
+        long carToDelete = 1L;
+        carRepository.save(new Car(carToDelete, "Toyota", "Prius Plus", Color.BLACK));
+
+        //when
+        carService.deleteCar(carToDelete);
+
+        //then
+        assertFalse(carRepository.findById(carToDelete).isPresent());
+    }
+
+    @Test
+    public void it_should_update_car_in_db() {
+
+        //given
+        Car carToUpdate = new Car(1L, "Toyota", "Camry", Color.BLACK);
+        carRepository.save(carToUpdate);
+
+        //when
+        Car updatedCar = new Car(1L, "Toyota", "Corolla", Color.WHITE);
+        carRepository.update(updatedCar);
+
+        //then
+        Optional<Car> result = carService.getCarById(1L);
+        assertTrue(result.isPresent());
+        assertEquals("Corolla", result.get().model());
+        assertEquals(Color.WHITE, result.get().color());
+    }
 }

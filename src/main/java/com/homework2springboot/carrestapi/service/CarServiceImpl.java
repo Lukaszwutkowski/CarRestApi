@@ -1,5 +1,6 @@
 package com.homework2springboot.carrestapi.service;
 
+import com.homework2springboot.carrestapi.exceptions.CarNotFoundException;
 import com.homework2springboot.carrestapi.model.Car;
 import com.homework2springboot.carrestapi.repository.InMemoryCarRepository;
 import lombok.AllArgsConstructor;
@@ -27,5 +28,34 @@ public class CarServiceImpl implements CarService{
     @Override
     public List<Car> getCarsByColor(String color) {
         return carRepository.findByColor(color);
+    }
+
+    @Override
+    public void addNewCar(Car car) {
+        carRepository.save(car);
+    }
+    @Override
+    public void deleteCar(long id) {
+        Optional<Car> carToDelete = carRepository.findById(id);
+        if (carToDelete.isPresent()) {
+            carRepository.delete(carToDelete.get().id());
+        } else {
+            throw new CarNotFoundException("Car not found in database");
+        }
+    }
+    @Override
+    public void updateCar(long id, Car updatedCar) {
+        Optional<Car> existingCar = carRepository.findById(id);
+
+        if (existingCar.isPresent()) {
+            Car carToUpdate = existingCar.get();
+            Car updatedRecord = new Car(
+                    carToUpdate.id(),
+                    updatedCar.mark(),
+                    updatedCar.model(),
+                    updatedCar.color()
+            );
+            carRepository.update(updatedRecord);
+        }
     }
 }

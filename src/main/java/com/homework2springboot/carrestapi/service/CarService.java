@@ -13,4 +13,10 @@ public interface CarService {
 
     List<Car> getCarsByColor(String color);
 
+    void addNewCar(Car car);
+
+    void deleteCar(long id);
+
+    void updateCar(long id, Car updatedCar);
+
 }

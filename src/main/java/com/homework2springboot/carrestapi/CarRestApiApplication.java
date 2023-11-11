@@ -34,7 +34,7 @@ public class CarRestApiApplication implements CommandLineRunner {
         Car car7 = new Car(7L,"Tesla", "Model X", Color.BLACK);
         Car car8 = new Car(8L,"Mercedes-Benz", "EQE", Color.BLACK);
         Car car9 = new Car(9L,"Kia", "EV6", Color.MIDNIGHT_BLUE);
-        Car car10 = new Car(10L,"Hyundai", "Ioniq 6", Color.WHITE);
+        Car car10 = new Car(10L,"Hyundai", "Ioniq 6", Color.DEEP_RED);
 
         List<Car> carsToSave = Arrays.asList(car1, car2, car3, car4, car5, car6, car7, car8, car9, car10);
 
